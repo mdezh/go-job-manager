@@ -18,7 +18,7 @@ func (m *manager) jobLoop(j *jobRecord) {
 				m.wg.Add(1)
 				go m.execJob(j)
 			}
-		case <-m.stop:
+		case <-m.stopped:
 			return
 		}
 	}

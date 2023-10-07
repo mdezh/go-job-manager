@@ -7,8 +7,8 @@ func (m *manager) catchCancel() {
 	case <-m.ctx.Done():
 		m.stopOnce.Do(func() {
 			m.logger.Println("job manager received cancel, gracefully shutting down...")
-			close(m.stop)
+			close(m.stopped)
 		})
-	case <-m.stop:
+	case <-m.stopped:
 	}
 }

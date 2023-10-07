@@ -5,21 +5,17 @@ import (
 )
 
 func (m *manager) Start() error {
-	for {
-		if m.isStarted() {
-			return errors.New("failed to start job manager: already started")
-		}
+	if len(m.jobs) == 0 {
+		return errors.New("failed to start job manager: no jobs added")
+	}
 
-		if len(m.jobs) == 0 {
-			return errors.New("failed to start job manager: no jobs added")
-		}
-
-		if m.toStarted() {
-			break
-		}
+	if m.isStarted() {
+		return errors.New("failed to start job manager: already started")
 	}
 
 	go m.startOnce.Do(func() {
+		close(m.started)
+
 		m.wg.Add(len(m.jobs))
 		for _, j := range m.jobs {
 			go m.jobLoop(j)

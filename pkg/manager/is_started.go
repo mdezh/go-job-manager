@@ -1,8 +1,10 @@
 package manager
 
 func (m *manager) isStarted() bool {
-	m.mx.RLock()
-	defer m.mx.RUnlock()
-
-	return m.started
+	select {
+	case <-m.started:
+		return true
+	default:
+		return false
+	}
 }

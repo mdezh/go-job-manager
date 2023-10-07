@@ -3,7 +3,7 @@ package manager
 import "errors"
 
 func (m *manager) AddJob(name string, j Job, cfg JobConfiguration) error {
-	if m.started {
+	if m.isStarted() {
 		return errors.New("failed to add job: job manager is already started")
 	}
 

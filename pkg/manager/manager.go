@@ -38,21 +38,21 @@ type jobRecord struct {
 type manager struct {
 	ctx       context.Context
 	logger    logger
-	started   bool
 	startOnce sync.Once
 	stopOnce  sync.Once
-	stop      chan empty
+	started   chan empty
+	stopped   chan empty
 	done      chan empty
 	wg        sync.WaitGroup
-	mx        sync.RWMutex
 	jobs      []*jobRecord
 }
 
 func NewManager(ctx context.Context, logger logger) *manager {
 	return &manager{
-		ctx:    ctx,
-		logger: logger,
-		stop:   make(chan empty),
-		done:   make(chan empty),
+		ctx:     ctx,
+		logger:  logger,
+		started: make(chan empty),
+		stopped: make(chan empty),
+		done:    make(chan empty),
 	}
 }

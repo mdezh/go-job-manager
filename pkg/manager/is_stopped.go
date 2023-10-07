@@ -2,7 +2,7 @@ package manager
 
 func (m *manager) isStopped() bool {
 	select {
-	case <-m.stop:
+	case <-m.stopped:
 		return true
 	default:
 		return false

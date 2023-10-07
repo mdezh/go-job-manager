@@ -13,7 +13,7 @@ func (m *manager) Stop() error {
 
 	m.stopOnce.Do(func() {
 		m.logger.Println("job manager gracefully shutting down...")
-		close(m.stop)
+		close(m.stopped)
 	})
 
 	<-m.done
